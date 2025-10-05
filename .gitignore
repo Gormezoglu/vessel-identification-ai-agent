@@ -1,0 +1,9 @@
+
+.venv/
+__pycache__/
+*.pyc
+*.log
+*.csv
+case_study_dataset_202509152039.csv
+case_study.pdf
+golden_records.csv

@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vessel Search</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 2em;
+        }
+        #results {
+            margin-top: 1em;
+            padding: 1em;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>Vessel Search</h1>
+    <form id="search-form">
+        <input type="text" id="question" placeholder="Ask a question about a vessel..." size="50">
+        <button type="submit">Search</button>
+    </form>
+    <div id="results"></div>
+
+    <script>
+        document.getElementById('search-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const question = document.getElementById('question').value;
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = 'Searching...';
+
+            const response = await fetch('/ask', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({question: question})
+            });
+
+            const data = await response.json();
+
+            if (data.answer) {
+                resultsDiv.innerHTML = `<h2>Answer:</h2><p>${data.answer}</p>`;
+            } else {
+                resultsDiv.innerHTML = 'No results found.';
+            }
+        });
+    </script>
+</body>
+</html>
